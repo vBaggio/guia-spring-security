@@ -80,15 +80,17 @@ Esta integração profunda significa que você não precisa de adaptadores ou "c
 
 ## O fluxo de uma requisição através do Spring Security
 
-Para entender realmente como o Spring Security funciona, é útil visualizar o caminho que uma requisição percorre:
+O diagrama a seguir representa o fluxo simplificado de uma requisição HTTP feita para uma aplicação Spring contando com o Spring Security devidamente configurado para realizar a autenticação e autorização do usuário:
+![[assets/arquitetura-diagrama-1.svg]]
+Vamos entender esse fluxo passo a passo:
 
-1. A requisição chega ao servidor e entra na **Security Filter Chain** (cadeia de filtros) do Spring Security;
-2. Filtros especializados verificam aspectos de segurança, como tokens, cookies de sessão ou credenciais;
-3. Se a autenticação for necessária, o **Authentication Manager** entra em ação, delegando para **Authentication Providers** apropriados (LDAP, banco de dados, OAuth, etc.);
-4. Após a autenticação bem-sucedida, o **Security Context** é estabelecido, mantendo as informações do usuário durante o ciclo de vida da requisição;
-5. Quando a requisição chega ao seu controller ou serviço, verificações de **Authorization** determinam se o usuário tem permissões para a operação;
-6. Finalmente, a resposta passa novamente por filtros que podem adicionar **Security Headers** antes de retornar ao cliente.
-
-Este fluxo garante que cada aspecto da segurança seja verificado no momento certo, protegendo sua aplicação em camadas, como anéis concêntricos de segurança.
+1. A requisição chega à aplicação e logo é interceptada pelo Spring Security;
+2. Para que a requisição seja permitida, ela precisa passar por uma série de filtros de segurança, para garantir que o usuário possui as devidas permissões para acessar o recurso. Esse é o papel do **Security Filter Chain**.
+3. No exemplo simplificado, temos dois filtros: Autenticação e Autorização. A ideia é verificar se o usuário está logado e possui o direito de acesso ao recurso solicitado.
+4. Podemos definir quantos filtros personalizados quisermos, especificar quais recursos são públicos ou privados, criar múltiplos níveis de acesso por usuário, esse é o poder do **Security Filter Chain**.
+5. Caso algum falhe um dos filtros de Autenticação ou Autorização, o Spring Security se encarrega de barrar a requisição devolvendo um status **401 Unauthorized** ou **403 Forbidden**, respectivamente.
+6. Após a autenticação bem-sucedida, o **Security Context** é estabelecido, mantendo as informações do usuário durante o ciclo de vida da requisição;
+7. Agora segue-se o fluxo normal da aplicação, conforme definido no Rest Controller.
 
 Com esta arquitetura robusta e integração perfeita, o Spring Security se torna não apenas uma ferramenta, mas uma extensão natural do seu desenvolvimento com Spring, tornando a segurança uma parte intrínseca da sua aplicação em vez de algo adicionado posteriormente.
+
