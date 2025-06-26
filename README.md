@@ -83,6 +83,7 @@ Esta integração profunda significa que você não precisa de adaptadores ou "c
 O diagrama a seguir representa o fluxo simplificado de uma requisição HTTP feita para uma aplicação Spring contando com o Spring Security devidamente configurado para realizar a autenticação e autorização do usuário:
 
 ![Diagrama Fluxo da Requisição](assets/arquitetura-diagrama-1.svg)
+
 Vamos entender o fluxo passo a passo:
 
 1. A requisição chega à aplicação e logo é interceptada pelo Spring Security;
